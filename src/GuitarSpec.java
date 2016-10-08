@@ -8,13 +8,35 @@ public class GuitarSpec {
     private Type type;
     private Wood backWood;
     private Wood topWood;
+    private int numStrings;
 
-    public GuitarSpec(Builder builder, String model, Type type, Wood backWood, Wood topWood) {
+    public GuitarSpec(Builder builder, String model, Type type, int numStrings, Wood backWood, Wood topWood) {
         this.builder = builder;
         this.model = model;
+        this.numStrings = numStrings;
         this.type = type;
         this.backWood = backWood;
         this.topWood = topWood;
+    }
+
+    public boolean matches(GuitarSpec otherSpec) {
+        String model = otherSpec.getModel();
+        return otherSpec.getBuilder() == builder &&
+                !((model != null) && (!model.equals("")) &&
+                !model.equals(this.model))
+                && otherSpec.getType() == type
+                && otherSpec.getBackWood() == backWood
+                && otherSpec.getTopWood() == topWood
+                && otherSpec.getNumStrings() == numStrings;
+    }
+
+    @Override
+    public String toString() {
+        return builder + " " + model + " " +
+                numStrings + "-strings " +
+                type + " guitar:\n\t" +
+                backWood + " back and sides,\n\t" +
+                topWood + " top.\n";
     }
 
     public Builder getBuilder() {
@@ -35,5 +57,9 @@ public class GuitarSpec {
 
     public Wood getTopWood() {
         return topWood;
+    }
+
+    public int getNumStrings() {
+        return numStrings;
     }
 }

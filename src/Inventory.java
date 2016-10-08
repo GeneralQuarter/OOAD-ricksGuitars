@@ -11,9 +11,9 @@ public class Inventory {
 
   private void addGuitar(String serialNumber, double price,
                         Builder builder, String model,
-                        Type type, Wood backWood, Wood topWood) {
+                        Type type, int numStrings, Wood backWood, Wood topWood) {
     GuitarSpec guitarSpec = new GuitarSpec(builder,
-            model, type, backWood, topWood);
+            model, type, numStrings, backWood, topWood);
     Guitar guitar = new Guitar(serialNumber, price, guitarSpec);
     guitars.add(guitar);
   }
@@ -40,8 +40,9 @@ public class Inventory {
                 Builder.parseBuilder(fields[2].replace("\"", "")),
                 fields[3].replace("\"", ""),
                 Type.parseType(fields[4].replace("\"", "")),
-                Wood.parseWood(fields[5].replace("\"", "")),
-                Wood.parseWood(fields[6].replace("\"", "")));
+                Integer.parseInt(fields[5]),
+                Wood.parseWood(fields[6].replace("\"", "")),
+                Wood.parseWood(fields[7].replace("\"", "")));
       }
     } catch (Exception e){
       e.printStackTrace();
@@ -52,21 +53,9 @@ public class Inventory {
     List<Guitar> results = new LinkedList<>();
     for (Guitar guitar : guitars) {
       GuitarSpec guitarSpec = guitar.getGuitarSpec();
-      // Ignore serial number since that's unique
-      // Ignore price since that's unique
-      if (searchGuitarSpec.getBuilder() != guitarSpec.getBuilder())
-        continue;
-      String model = searchGuitarSpec.getModel();
-      if ((model != null) && (!model.equals("")) &&
-          (!model.equals(guitarSpec.getModel())))
-        continue;
-      if (searchGuitarSpec.getType() != guitarSpec.getType())
-        continue;
-      if (searchGuitarSpec.getBackWood() != guitarSpec.getBackWood())
-        continue;
-      if (searchGuitarSpec.getTopWood() != guitarSpec.getTopWood())
-        continue;
-      results.add(guitar);
+      if (guitarSpec.matches(searchGuitarSpec)) {
+        results.add(guitar);
+      }
     }
     return results;
   }

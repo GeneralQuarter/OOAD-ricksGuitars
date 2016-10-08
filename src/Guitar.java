@@ -25,4 +25,10 @@ public class Guitar {
   public GuitarSpec getGuitarSpec() {
     return guitarSpec;
   }
+
+  @Override
+  public String toString() {
+    return "We have a " + guitarSpec +
+            "You can have it for only $" + price + "!\n --- ";
+  }
 }
