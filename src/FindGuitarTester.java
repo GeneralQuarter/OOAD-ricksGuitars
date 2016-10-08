@@ -6,7 +6,7 @@ public class FindGuitarTester {
     // Set up Rick's guitar inventory
     Inventory inventory = new Inventory();
 
-    Guitar whatErinLikes = new Guitar("", 0, Builder.FENDER, "Stratocastor",
+    GuitarSpec whatErinLikes = new GuitarSpec(Builder.FENDER, "Stratocastor",
                                       Type.ELECTRIC, Wood.ALDER, Wood.ALDER);
 
     List<Guitar> guitars = inventory.search(whatErinLikes);
@@ -14,11 +14,12 @@ public class FindGuitarTester {
     if(!guitars.isEmpty()) {
       System.out.println("Erin, you might like these guitars: ");
       for (Guitar guitar : guitars) {
+        GuitarSpec guitarSpec = guitar.getGuitarSpec();
         System.out.println("We have a " +
-                guitar.getBuilder() + " " + guitar.getModel() + " " +
-                guitar.getType() + " guitar:\n   " +
-                guitar.getBackWood() + " back and sides,\n   " +
-                guitar.getTopWood() + " top.\nYou can have it for only $" +
+                guitarSpec.getBuilder() + " " + guitarSpec.getModel() + " " +
+                guitarSpec.getType() + " guitar:\n   " +
+                guitarSpec.getBackWood() + " back and sides,\n   " +
+                guitarSpec.getTopWood() + " top.\nYou can have it for only $" +
                 guitar.getPrice() + "!\n --- ");
       }
     } else {
